@@ -246,6 +246,8 @@ functions should be used to compute and return values, mixins should define styl
 
 A perfect example for a mixin is choosing between a light and dark theme
 
+We use them by first creating the mixin **then** we do `@include mixinName`
+
 ```scss
 @mixin theme($light-theme: true) {
   @if $light-theme {
@@ -272,5 +274,138 @@ Then you can toggle true and false to see the difference!
 ```
 
 `@content` will be called when the mixin mobile is called
+
+
+Parent Selectors
+
+```html
+<html>
+  <head>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <h1>Beautiful Buttons</h1>
+    <!-- BEGIN EXERCISE -->
+    <p>
+      <button class='btn btn-primary'>Click Me!</button>
+      <label>Primary</label>
+    </p>
+
+    <p>
+      <button class='btn btn-secondary'>Click Me!</button>
+      <label>Secondary</label>
+    </p>
+
+    <p>
+      <button class='btn btn-primary' disabled>Click Me!</button>
+      <label>Primary Disabled</label>
+    </p>
+
+    <p>
+      <button class='btn btn-secondary' disabled>Click Me!</button>
+      <label>Secondary Disabled</label>
+    </p>
+<!--
+    <h2>Inputs</h2>
+    <p>
+      <input type="text" value='Hello Text'>
+      <label>Text</label>
+    </p>
+    <p>
+      <input type="password" value='Hello Password'>
+      <label>Password</label>
+    </p>
+    <p>
+      <input type="range" value='Hello Range'>
+      <label>Range</label>
+    </p>-->
+    <!-- END EXERCISE -->
+    <script src="js/tester.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="tests.js"></script>
+
+  </body>
+</html>
+```
+
+Notice that we have classNames that are `btn btn-secondary`
+
+this allows us to write our `scss` as:
+
+```scss
+.btn {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #c46;
+  border-radius: 2px;
+
+  &-primary {
+    background-color: #c46;
+    color: #fff;
+  }
+
+  &-secondary {
+    background-color: #edbcc8;
+    color: #000;
+  }
+}
+```
+
+or 
+
+```scss
+body {
+    h1 {
+    color: #c46;
+  }
+}
+
+.btn {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 1px solid #c46;
+  border-radius: 2px;
+
+  &.btn-primary {
+    background-color: #c46;
+    color: #fff;
+  }
+
+  &.btn-secondary {
+    background-color: #edbcc8;
+    color: #000;
+  }
+
+  &:disabled { 
+    opacity: 0.5;
+  }
+
+}
+```
+
+However if we write as `&-primary` instead of `.btn-primary`  -- `btn btn-primary` and `btn btn-secondary` are no longer scoped to the `btn` class anymore in our output css
+
+@import
+
+partials are designed to be imported into other scss files and they will not become their own css files
+Syntax: _filename.scss = the underscore lets css compiler know to not make it into a css file
+
+Variables
+
+Global Variable Declaration: `$color: #fff` this variable is now available anywhere it was imported or anywhere in the file it was declared
+
+Comments
+```scss
+/**
+ * 
+ */
+```
+
+Comment blocks are preserved and will show up in the css file
+But inline comments will not
 
 
